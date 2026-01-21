@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>俄羅斯方塊 - 防止滾動版</title>
+    <title>俄羅斯方塊 - 改良防滾動版</title>
     <style>
         * {
             margin: 0;
@@ -21,8 +21,7 @@
             justify-content: center;
             min-height: 100vh;
             padding: 20px;
-            overflow: hidden; /* 防止整個頁面滾動 */
-            touch-action: none; /* 防止觸控滾動 */
+            overflow-x: hidden; /* 只防止水平滾動 */
         }
         
         .container {
@@ -56,7 +55,6 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 0 25px rgba(255, 215, 0, 0.3);
-            touch-action: none; /* 防止觸控滾動 */
         }
         
         canvas {
@@ -146,7 +144,6 @@
             cursor: pointer;
             transition: all 0.2s;
             font-weight: bold;
-            user-select: none; /* 防止文字被選取 */
             -webkit-tap-highlight-color: transparent; /* 移除移動端點擊高亮 */
         }
         
@@ -178,23 +175,23 @@
             display: none;
             grid-template-columns: repeat(3, 1fr);
             grid-template-rows: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 20px;
-            touch-action: none; /* 防止觸控滾動 */
+            gap: 10px;
+            margin-top: 15px;
+            touch-action: manipulation; /* 改善觸控響應 */
         }
         
         .mobile-controls button {
-            height: 70px;
-            font-size: 1.5rem;
-            touch-action: none; /* 防止觸控滾動 */
+            height: 60px;
+            font-size: 1.2rem;
+            touch-action: manipulation;
         }
         
         .left-btn { grid-column: 1; grid-row: 2; }
         .right-btn { grid-column: 3; grid-row: 2; }
-        .up-btn { grid-column: 2; grid-row: 1; }
         .down-btn { grid-column: 2; grid-row: 2; }
         .rotateL-btn { grid-column: 1; grid-row: 1; }
         .rotateR-btn { grid-column: 3; grid-row: 1; }
+        .drop-btn { grid-column: 2; grid-row: 1; }
         
         .game-status {
             background-color: #222;
@@ -256,11 +253,6 @@
             .mobile-controls {
                 display: grid;
             }
-            
-            body {
-                padding: 10px;
-                overflow-y: auto; /* 在移動端允許垂直滾動查看所有內容 */
-            }
         }
         
         @media (max-width: 500px) {
@@ -271,37 +263,44 @@
             .rotate-buttons {
                 grid-template-columns: 1fr;
             }
+            
+            body {
+                padding: 10px;
+            }
         }
         
         /* 防止文字被選取 */
         .no-select {
-            -webkit-touch-callout: none;
             -webkit-user-select: none;
-            -khtml-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
         }
+        
+        /* 只在遊戲進行時防止滾動的類別 */
+        .prevent-scroll {
+            overflow: hidden;
+        }
     </style>
 </head>
-<body class="no-select">
+<body>
     <div class="container">
         <header>
             <h1>俄羅斯方塊</h1>
             <p style="color: #FFD700;">每個方塊都有不同的顏色！</p>
-            <p style="color: #FF9800; font-size: 0.9rem; margin-top: 5px;">※ 移動端：按住控制按鈕不會導致頁面滾動</p>
+            <p style="color: #FF9800; font-size: 0.9rem; margin-top: 5px;">※ 遊戲進行時不會滾動頁面</p>
         </header>
         
         <div class="game-area">
             <div>
                 <canvas class="game-board" id="gameCanvas" width="300" height="600"></canvas>
                 <div class="mobile-controls">
-                    <button class="rotateL-btn" id="mobileRotateLeft">Q左轉</button>
-                    <button class="up-btn" id="mobileDownFast">↓加速</button>
-                    <button class="rotateR-btn" id="mobileRotateRight">W右轉</button>
-                    <button class="left-btn" id="mobileLeft">←左移</button>
-                    <button class="down-btn" id="mobileDrop">空格落下</button>
-                    <button class="right-btn" id="mobileRight">→右移</button>
+                    <button class="rotateL-btn" id="mobileRotateLeft">Q<br>左轉</button>
+                    <button class="drop-btn" id="mobileDrop">空格<br>落下</button>
+                    <button class="rotateR-btn" id="mobileRotateRight">W<br>右轉</button>
+                    <button class="left-btn" id="mobileLeft">←<br>左移</button>
+                    <button class="down-btn" id="mobileDownFast">↓<br>加速</button>
+                    <button class="right-btn" id="mobileRight">→<br>右移</button>
                 </div>
             </div>
             
@@ -369,11 +368,11 @@
             <p>3. 填滿一行即可消除並獲得積分</p>
             <p>4. 旋轉功能讓您可以更靈活地擺放方塊</p>
             <p>5. 避免方塊堆疊到頂部，否則遊戲結束</p>
-            <p style="color: #FF9800;">移動端：使用下方按鈕控制，按住不會滾動頁面</p>
+            <p style="color: #FF9800;">移動端：使用下方按鈕控制，遊戲進行時不會滾動頁面</p>
         </div>
         
         <footer>
-            <p>俄羅斯方塊遊戲 | 黃色背景 | 每個方塊顏色不同 | 完整旋轉控制 | 防止頁面滾動</p>
+            <p>俄羅斯方塊遊戲 | 黃色背景 | 每個方塊顏色不同 | 完整旋轉控制 | 改良防滾動</p>
         </footer>
     </div>
 
@@ -453,15 +452,11 @@
         let currentPieceColor = null;
         let score = 0;
         let gameRunning = false;
+        let gamePaused = false;
         let gameOver = false;
         let dropInterval = 1000; // 初始下落速度
         let dropStart = Date.now();
         let gameLoop;
-        
-        // 觸控狀態變數
-        let touchStartY = 0;
-        let touchStartTime = 0;
-        let isTouching = false;
         
         // 初始化遊戲板
         function initBoard() {
@@ -791,6 +786,7 @@
             if (gameRunning) {
                 update();
             }
+            requestAnimationFrame(gameStep);
         }
         
         // 開始遊戲
@@ -801,8 +797,13 @@
             
             if (!gameRunning) {
                 gameRunning = true;
+                gamePaused = false;
                 updateGameStatus('遊戲中');
-                gameLoop = setInterval(gameStep, 50);
+                
+                // 只在遊戲進行時防止滾動
+                enablePreventScroll(true);
+                
+                gameLoop = setInterval(update, 1000 / 60); // 60 FPS
             }
         }
         
@@ -810,18 +811,29 @@
         function pauseGame() {
             if (gameRunning && !gameOver) {
                 gameRunning = false;
+                gamePaused = true;
                 updateGameStatus('已暫停');
+                
+                // 暫停時恢復滾動
+                enablePreventScroll(false);
+                
                 clearInterval(gameLoop);
-            } else if (!gameRunning && !gameOver) {
+            } else if (!gameRunning && !gameOver && gamePaused) {
                 gameRunning = true;
+                gamePaused = false;
                 updateGameStatus('遊戲中');
-                gameLoop = setInterval(gameStep, 50);
+                
+                // 恢復遊戲時再次防止滾動
+                enablePreventScroll(true);
+                
+                gameLoop = setInterval(update, 1000 / 60);
             }
         }
         
         // 重新開始遊戲
         function resetGame() {
             gameRunning = false;
+            gamePaused = false;
             gameOver = false;
             score = 0;
             dropInterval = 1000;
@@ -831,6 +843,9 @@
             initBoard();
             createPiece();
             updateGameStatus('準備開始');
+            
+            // 恢復滾動
+            enablePreventScroll(false);
             
             clearInterval(gameLoop);
             draw();
@@ -854,24 +869,38 @@
             }
         }
         
-        // 防止頁面滾動的函數
-        function preventDefaultScroll(e) {
-            // 防止觸控事件的預設行為（滾動）
-            if (e.type.includes('touch')) {
-                e.preventDefault();
-            }
-            
-            // 防止方向鍵的預設行為（頁面滾動）
-            if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' ', 'Spacebar'].includes(e.key)) {
-                e.preventDefault();
+        // 啟用/禁用防止滾動功能
+        function enablePreventScroll(enable) {
+            if (enable) {
+                // 只在遊戲進行時防止方向鍵滾動
+                document.addEventListener('keydown', preventGameKeyScroll);
+                // 防止canvas上的滾動
+                canvas.addEventListener('wheel', preventCanvasScroll, { passive: false });
+            } else {
+                // 恢復正常滾動
+                document.removeEventListener('keydown', preventGameKeyScroll);
+                canvas.removeEventListener('wheel', preventCanvasScroll);
             }
         }
         
-        // 鍵盤控制 - 防止頁面滾動
+        // 防止遊戲控制鍵的滾動行為
+        function preventGameKeyScroll(e) {
+            // 只在遊戲進行時防止這些按鍵的預設行為
+            if (gameRunning && !gamePaused && !gameOver) {
+                const gameKeys = ['ArrowLeft', 'ArrowRight', 'ArrowDown', ' ', 'q', 'Q', 'w', 'W'];
+                if (gameKeys.includes(e.key)) {
+                    e.preventDefault();
+                }
+            }
+        }
+        
+        // 防止canvas上的滾動
+        function preventCanvasScroll(e) {
+            e.preventDefault();
+        }
+        
+        // 鍵盤控制 - 只在遊戲進行時防止滾動
         document.addEventListener('keydown', (e) => {
-            // 防止方向鍵和空格鍵的預設滾動行為
-            preventDefaultScroll(e);
-            
             // 如果遊戲結束，只允許重新開始
             if (gameOver && e.key.toLowerCase() !== 'r') return;
             
@@ -933,50 +962,32 @@
                     resetGame();
                     break;
             }
-        }, false);
+        });
         
-        // 防止方向鍵的預設行為（在遊戲進行時）
-        document.addEventListener('keydown', preventDefaultScroll, false);
-        
-        // 防止觸控事件的預設滾動行為
-        document.addEventListener('touchstart', preventDefaultScroll, { passive: false });
-        document.addEventListener('touchmove', preventDefaultScroll, { passive: false });
-        document.addEventListener('touchend', preventDefaultScroll, { passive: false });
-        
-        // 防止canvas上的滾動
-        canvas.addEventListener('wheel', (e) => {
-            e.preventDefault();
-        }, { passive: false });
-        
-        // 移動控制按鈕事件處理（防止觸控滾動）
+        // 移動控制按鈕事件處理（改良版）
         function setupMobileButton(button, action) {
-            button.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                if (gameRunning && !gamePaused && !gameOver) {
-                    action();
-                    draw();
-                }
-            }, { passive: false });
-            
-            button.addEventListener('touchend', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-            }, { passive: false });
-            
-            button.addEventListener('touchmove', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-            }, { passive: false });
-            
-            // 也支援滑鼠點擊
+            // 滑鼠點擊
             button.addEventListener('mousedown', (e) => {
                 e.preventDefault();
                 if (gameRunning && !gamePaused && !gameOver) {
                     action();
                     draw();
                 }
+            });
+            
+            // 觸控事件
+            button.addEventListener('touchstart', (e) => {
+                // 只在遊戲進行時防止觸控滾動
+                if (gameRunning && !gamePaused && !gameOver) {
+                    e.preventDefault();
+                    action();
+                    draw();
+                }
+            }, { passive: false });
+            
+            // 防止按鈕獲得焦點（避免虛擬鍵盤彈出）
+            button.addEventListener('focus', (e) => {
+                e.target.blur();
             });
         }
         
@@ -1006,16 +1017,15 @@
         });
         
         // 觸控滑動手勢控制（可選功能）
+        let touchStartY = 0;
         canvas.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            touchStartY = e.touches[0].clientY;
-            touchStartTime = Date.now();
-            isTouching = true;
-        }, { passive: false });
+            if (gameRunning && !gamePaused && !gameOver) {
+                touchStartY = e.touches[0].clientY;
+            }
+        }, { passive: true }); // 改為 passive: true 以保持頁面響應
         
         canvas.addEventListener('touchmove', (e) => {
-            e.preventDefault();
-            if (!isTouching || !gameRunning || gameOver) return;
+            if (!gameRunning || gamePaused || gameOver) return;
             
             const touchY = e.touches[0].clientY;
             const deltaY = touchY - touchStartY;
@@ -1026,31 +1036,20 @@
                 touchStartY = touchY;
                 draw();
             }
-        }, { passive: false });
+        }, { passive: true }); // 改為 passive: true
         
-        canvas.addEventListener('touchend', (e) => {
-            e.preventDefault();
-            isTouching = false;
-            
-            // 快速點擊旋轉
-            const touchTime = Date.now() - touchStartTime;
-            if (touchTime < 300) {
-                // 根據點擊位置決定旋轉方向
-                const touchX = e.changedTouches[0].clientX;
-                const canvasRect = canvas.getBoundingClientRect();
-                const relativeX = touchX - canvasRect.left;
-                
-                if (relativeX < canvas.width / 2) {
-                    rotatePiece(false); // 左側點擊左旋轉
-                } else {
-                    rotatePiece(true); // 右側點擊右旋轉
-                }
-                draw();
+        // 防止虛擬鍵盤彈出
+        document.addEventListener('touchstart', (e) => {
+            if (e.target.tagName === 'BUTTON' || e.target === canvas) {
+                e.preventDefault();
             }
         }, { passive: false });
         
         // 初始化遊戲
         resetGame();
+        
+        // 開始遊戲循環
+        gameStep();
     </script>
 </body>
 </html>

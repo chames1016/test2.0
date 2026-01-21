@@ -13,7 +13,7 @@
         }
         
         body {
-            background: linear-gradient(to bottom, #FFD700, #FFA500);
+            background-color: #FFD700;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -30,11 +30,10 @@
         }
         
         h1 {
-            font-size: 3.5rem;
+            font-size: 3rem;
             color: #FF1493;
-            text-shadow: 3px 3px 0 #8B4513, 5px 5px 0 rgba(0, 0, 0, 0.1);
+            text-shadow: 3px 3px 0 #8B4513;
             margin-bottom: 10px;
-            letter-spacing: 2px;
         }
         
         .subtitle {
@@ -49,7 +48,7 @@
             align-items: center;
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 20px;
-            padding: 25px;
+            padding: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             max-width: 800px;
             width: 100%;
@@ -70,7 +69,6 @@
             color: white;
             text-align: center;
             min-width: 150px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
         .info-label {
@@ -86,23 +84,20 @@
         .game-board {
             display: grid;
             grid-template-columns: repeat(8, 1fr);
-            grid-gap: 10px;
+            gap: 8px;
             background-color: #8B4513;
-            padding: 15px;
+            padding: 12px;
             border-radius: 15px;
             margin-bottom: 25px;
-            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.3);
         }
         
         .cell {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             border-radius: 10px;
             cursor: pointer;
-            transition: transform 0.2s, opacity 0.3s;
+            transition: transform 0.2s;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            position: relative;
-            overflow: hidden;
         }
         
         .cell:hover {
@@ -111,7 +106,7 @@
         
         .cell.selected {
             transform: scale(0.9);
-            box-shadow: 0 0 0 4px white, 0 0 15px #FF1493;
+            box-shadow: 0 0 0 4px white;
         }
         
         .cell.removing {
@@ -124,15 +119,6 @@
             100% { transform: scale(0); opacity: 0; }
         }
         
-        .cell.falling {
-            animation: fall 0.5s ease-out;
-        }
-        
-        @keyframes fall {
-            0% { transform: translateY(-100px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
-        }
-        
         .controls {
             display: flex;
             gap: 20px;
@@ -140,24 +126,18 @@
         }
         
         button {
-            padding: 15px 30px;
-            font-size: 1.2rem;
+            padding: 12px 25px;
+            font-size: 1.1rem;
             background: linear-gradient(to bottom, #32CD32, #228B22);
             color: white;
             border: none;
-            border-radius: 15px;
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.2s;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         
         button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
-        
-        button:active {
-            transform: translateY(1px);
+            transform: translateY(-2px);
         }
         
         button.reset {
@@ -199,19 +179,19 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: linear-gradient(to bottom, #FFD700, #FFA500);
+            background: #FFD700;
             padding: 40px;
             border-radius: 20px;
             text-align: center;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             z-index: 100;
             display: none;
-            border: 8px solid #FF1493;
+            border: 5px solid #FF1493;
         }
         
         .game-message h2 {
             color: #FF1493;
-            font-size: 3rem;
+            font-size: 2.5rem;
             margin-bottom: 20px;
         }
         
@@ -235,17 +215,17 @@
         @media (max-width: 768px) {
             .game-board {
                 grid-template-columns: repeat(8, 1fr);
-                grid-gap: 8px;
-                padding: 12px;
+                gap: 6px;
+                padding: 10px;
             }
             
             .cell {
-                width: 40px;
-                height: 40px;
+                width: 35px;
+                height: 35px;
             }
             
             h1 {
-                font-size: 2.5rem;
+                font-size: 2rem;
             }
             
             .game-info {
@@ -257,18 +237,6 @@
             .controls {
                 flex-direction: column;
                 width: 100%;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .game-board {
-                grid-template-columns: repeat(8, 1fr);
-                grid-gap: 6px;
-            }
-            
-            .cell {
-                width: 35px;
-                height: 35px;
             }
         }
     </style>
@@ -296,9 +264,9 @@
         </div>
         
         <div class="controls">
-            <button id="hintBtn">提示 (H)</button>
-            <button id="shuffleBtn">重新排列 (S)</button>
-            <button class="reset" id="resetBtn">重新开始 (R)</button>
+            <button id="hintBtn">提示</button>
+            <button id="shuffleBtn">重新排列</button>
+            <button class="reset" id="resetBtn">重新开始</button>
         </div>
     </div>
     
@@ -308,10 +276,8 @@
             <li>点击一个方块，然后点击相邻的另一个方块来交换它们的位置</li>
             <li>如果交换后形成<span class="highlight">三个或更多相同颜色的方块</span>，它们将会被消除并获得分数</li>
             <li>每次交换消耗一步，当步数用完时游戏结束</li>
-            <li><span class="highlight">消除4个方块</span>：额外加50分</li>
-            <li><span class="highlight">消除5个或更多方块</span>：额外加100分</li>
-            <li>使用<span class="highlight">提示按钮(H)</span>寻找可能的消除组合</li>
-            <li>使用<span class="highlight">重新排列按钮(S)</span>重新排列所有方块</li>
+            <li>使用<span class="highlight">提示按钮</span>寻找可能的消除组合</li>
+            <li>使用<span class="highlight">重新排列按钮</span>重新排列所有方块</li>
         </ul>
     </div>
     
@@ -324,15 +290,12 @@
     </div>
 
     <script>
-        // 游戏配置
+        // 简化游戏配置
         const config = {
             rows: 8,
             cols: 8,
             colors: ['#FF1493', '#32CD32', '#1E90FF', '#FFD700', '#8A2BE2', '#FF6347'],
-            minMatch: 3,
-            initialMoves: 15,
-            baseScore: 10,
-            hintDuration: 2000 // 提示显示时间（毫秒）
+            initialMoves: 15
         };
         
         // 游戏状态
@@ -354,7 +317,6 @@
         const resetBtn = document.getElementById('resetBtn');
         const gameMessage = document.getElementById('gameMessage');
         const overlay = document.getElementById('overlay');
-        const messageTitle = document.getElementById('messageTitle');
         const finalScoreElement = document.getElementById('finalScore');
         const playAgainBtn = document.getElementById('playAgainBtn');
         
@@ -377,11 +339,6 @@
             // 创建棋盘
             createBoard();
             
-            // 确保初始棋盘没有可消除的组合
-            while (findMatches().length > 0) {
-                shuffleBoard();
-            }
-            
             // 隐藏游戏结束消息
             gameMessage.style.display = 'none';
             overlay.style.display = 'none';
@@ -397,15 +354,14 @@
                 gameState.board[row] = [];
                 for (let col = 0; col < config.cols; col++) {
                     // 随机选择一种颜色
-                    const colorIndex = Math.floor(Math.random() * config.cols);
-                    const color = config.colors[colorIndex % config.colors.length];
+                    const colorIndex = Math.floor(Math.random() * config.colors.length);
+                    const color = config.colors[colorIndex];
                     
                     // 创建单元格对象
                     const cell = {
-                        row,
-                        col,
-                        color,
-                        element: null
+                        row: row,
+                        col: col,
+                        color: color
                     };
                     
                     gameState.board[row][col] = cell;
@@ -418,7 +374,9 @@
                     cellElement.style.backgroundColor = color;
                     
                     // 添加点击事件
-                    cellElement.addEventListener('click', () => handleCellClick(row, col));
+                    cellElement.addEventListener('click', function() {
+                        handleCellClick(row, col);
+                    });
                     
                     // 添加到棋盘
                     gameBoard.appendChild(cellElement);
@@ -429,7 +387,6 @@
         
         // 处理单元格点击
         function handleCellClick(row, col) {
-            // 如果游戏结束或正在处理，忽略点击
             if (gameState.isGameOver || gameState.isProcessing) return;
             
             const cell = gameState.board[row][col];
@@ -454,7 +411,6 @@
                 (Math.abs(selectedCell.row - row) === 1 && selectedCell.col === col) ||
                 (Math.abs(selectedCell.col - col) === 1 && selectedCell.row === row);
             
-            // 如果不是相邻单元格，取消选择并选中新单元格
             if (!isAdjacent) {
                 selectedCell.element.classList.remove('selected');
                 gameState.selectedCell = cell;
@@ -463,18 +419,11 @@
             }
             
             // 交换两个相邻单元格
-            swapCells(selectedCell, cell, true);
-            
-            // 清除选中状态
-            selectedCell.element.classList.remove('selected');
-            gameState.selectedCell = null;
+            swapCells(selectedCell, cell);
         }
         
         // 交换两个单元格
-        function swapCells(cell1, cell2, checkMatches = false) {
-            // 如果游戏结束，不执行交换
-            if (gameState.isGameOver) return;
-            
+        function swapCells(cell1, cell2) {
             gameState.isProcessing = true;
             
             // 交换颜色
@@ -482,39 +431,40 @@
             cell1.color = cell2.color;
             cell2.color = tempColor;
             
-            // 更新DOM元素
+            // 更新DOM
             cell1.element.style.backgroundColor = cell1.color;
             cell2.element.style.backgroundColor = cell2.color;
             
-            // 添加交换动画
-            cell1.element.classList.add('falling');
-            cell2.element.classList.add('falling');
+            // 清除选中状态
+            cell1.element.classList.remove('selected');
+            cell2.element.classList.remove('selected');
+            gameState.selectedCell = null;
             
-            // 动画结束后检查是否有匹配
+            // 减少步数
+            gameState.movesLeft--;
+            movesElement.textContent = gameState.movesLeft;
+            
+            // 检查匹配
             setTimeout(() => {
-                cell1.element.classList.remove('falling');
-                cell2.element.classList.remove('falling');
+                const matches = findMatches();
                 
-                if (checkMatches) {
-                    // 减少剩余步数
-                    gameState.movesLeft--;
-                    movesElement.textContent = gameState.movesLeft;
-                    
-                    // 检查匹配
-                    const matches = findMatches();
-                    
-                    if (matches.length > 0) {
-                        // 有匹配，消除并计分
-                        removeMatches(matches);
-                    } else {
-                        // 没有匹配，交换回来
-                        setTimeout(() => {
-                            swapCells(cell1, cell2, false);
-                            gameState.isProcessing = false;
-                        }, 300);
-                    }
+                if (matches.length > 0) {
+                    removeMatches(matches);
                 } else {
+                    // 没有匹配，交换回来
+                    const temp = cell1.color;
+                    cell1.color = cell2.color;
+                    cell2.color = temp;
+                    
+                    cell1.element.style.backgroundColor = cell1.color;
+                    cell2.element.style.backgroundColor = cell2.color;
+                    
                     gameState.isProcessing = false;
+                    
+                    // 检查游戏是否结束
+                    if (gameState.movesLeft <= 0) {
+                        endGame();
+                    }
                 }
             }, 300);
         }
@@ -526,25 +476,33 @@
             // 检查水平匹配
             for (let row = 0; row < config.rows; row++) {
                 for (let col = 0; col < config.cols - 2; col++) {
-                    const cell1 = gameState.board[row][col];
-                    const cell2 = gameState.board[row][col + 1];
-                    const cell3 = gameState.board[row][col + 2];
-                    
-                    if (cell1.color === cell2.color && cell2.color === cell3.color) {
-                        // 找到至少三个匹配
-                        let match = [cell1, cell2, cell3];
+                    if (gameState.board[row][col] && 
+                        gameState.board[row][col+1] && 
+                        gameState.board[row][col+2]) {
                         
-                        // 检查是否有更多相同颜色的相邻单元格
-                        for (let c = col + 3; c < config.cols; c++) {
-                            const nextCell = gameState.board[row][c];
-                            if (nextCell.color === cell1.color) {
-                                match.push(nextCell);
-                            } else {
-                                break;
+                        const color1 = gameState.board[row][col].color;
+                        const color2 = gameState.board[row][col+1].color;
+                        const color3 = gameState.board[row][col+2].color;
+                        
+                        if (color1 === color2 && color2 === color3) {
+                            const match = [
+                                gameState.board[row][col],
+                                gameState.board[row][col+1],
+                                gameState.board[row][col+2]
+                            ];
+                            
+                            // 检查是否有更多匹配
+                            for (let c = col+3; c < config.cols; c++) {
+                                if (gameState.board[row][c] && 
+                                    gameState.board[row][c].color === color1) {
+                                    match.push(gameState.board[row][c]);
+                                } else {
+                                    break;
+                                }
                             }
+                            
+                            matches.push(match);
                         }
-                        
-                        matches.push(match);
                     }
                 }
             }
@@ -552,25 +510,33 @@
             // 检查垂直匹配
             for (let col = 0; col < config.cols; col++) {
                 for (let row = 0; row < config.rows - 2; row++) {
-                    const cell1 = gameState.board[row][col];
-                    const cell2 = gameState.board[row + 1][col];
-                    const cell3 = gameState.board[row + 2][col];
-                    
-                    if (cell1.color === cell2.color && cell2.color === cell3.color) {
-                        // 找到至少三个匹配
-                        let match = [cell1, cell2, cell3];
+                    if (gameState.board[row][col] && 
+                        gameState.board[row+1][col] && 
+                        gameState.board[row+2][col]) {
                         
-                        // 检查是否有更多相同颜色的相邻单元格
-                        for (let r = row + 3; r < config.rows; r++) {
-                            const nextCell = gameState.board[r][col];
-                            if (nextCell.color === cell1.color) {
-                                match.push(nextCell);
-                            } else {
-                                break;
+                        const color1 = gameState.board[row][col].color;
+                        const color2 = gameState.board[row+1][col].color;
+                        const color3 = gameState.board[row+2][col].color;
+                        
+                        if (color1 === color2 && color2 === color3) {
+                            const match = [
+                                gameState.board[row][col],
+                                gameState.board[row+1][col],
+                                gameState.board[row+2][col]
+                            ];
+                            
+                            // 检查是否有更多匹配
+                            for (let r = row+3; r < config.rows; r++) {
+                                if (gameState.board[r][col] && 
+                                    gameState.board[r][col].color === color1) {
+                                    match.push(gameState.board[r][col]);
+                                } else {
+                                    break;
+                                }
                             }
+                            
+                            matches.push(match);
                         }
-                        
-                        matches.push(match);
                     }
                 }
             }
@@ -580,7 +546,7 @@
         
         // 消除匹配的方块
         function removeMatches(matches) {
-            // 获取所有需要消除的单元格（去重）
+            // 获取所有需要消除的单元格
             const cellsToRemove = [];
             const uniqueCells = new Set();
             
@@ -599,26 +565,17 @@
             });
             
             // 计算分数
-            const matchCount = cellsToRemove.length;
-            let points = config.baseScore * matchCount;
-            
-            // 额外奖励
-            if (matchCount >= 5) {
-                points += 100;
-            } else if (matchCount === 4) {
-                points += 50;
-            }
-            
-            // 更新分数
+            const points = cellsToRemove.length * 10;
             gameState.score += points;
             scoreElement.textContent = gameState.score;
             
             // 动画结束后填充新的单元格
             setTimeout(() => {
-                // 移除单元格
+                // 移除单元格颜色
                 cellsToRemove.forEach(cell => {
                     cell.element.classList.remove('removing');
                     cell.element.style.backgroundColor = 'transparent';
+                    cell.color = null;
                 });
                 
                 // 掉落上面的单元格
@@ -632,24 +589,13 @@
                     const newMatches = findMatches();
                     
                     if (newMatches.length > 0) {
-                        // 有新的匹配，继续消除
                         removeMatches(newMatches);
                     } else {
-                        // 没有新的匹配，检查游戏是否结束
                         gameState.isProcessing = false;
                         
                         // 检查游戏是否结束
                         if (gameState.movesLeft <= 0) {
                             endGame();
-                        } else {
-                            // 检查是否还有可能的移动
-                            if (!hasPossibleMoves()) {
-                                // 没有可能的移动，重新排列
-                                setTimeout(() => {
-                                    alert('没有可能的移动了，正在重新排列方块...');
-                                    shuffleBoard();
-                                }, 500);
-                            }
                         }
                     }
                 }, 500);
@@ -659,34 +605,21 @@
         // 掉落单元格填充空位
         function dropCells() {
             for (let col = 0; col < config.cols; col++) {
-                let emptySpaces = 0;
-                
-                // 从底部向上检查
                 for (let row = config.rows - 1; row >= 0; row--) {
-                    const cell = gameState.board[row][col];
-                    
-                    if (cell.element.style.backgroundColor === 'transparent') {
-                        emptySpaces++;
-                    } else if (emptySpaces > 0) {
-                        // 将单元格向下移动
-                        const newRow = row + emptySpaces;
-                        const targetCell = gameState.board[newRow][col];
-                        
-                        // 交换颜色
-                        targetCell.color = cell.color;
-                        targetCell.element.style.backgroundColor = cell.color;
-                        
-                        // 清空原单元格
-                        cell.color = null;
-                        cell.element.style.backgroundColor = 'transparent';
-                        
-                        // 添加掉落动画
-                        targetCell.element.classList.add('falling');
-                        
-                        // 移除动画类
-                        setTimeout(() => {
-                            targetCell.element.classList.remove('falling');
-                        }, 300);
+                    if (gameState.board[row][col].color === null) {
+                        // 寻找上方第一个有颜色的单元格
+                        for (let r = row - 1; r >= 0; r--) {
+                            if (gameState.board[r][col].color !== null) {
+                                // 掉落
+                                gameState.board[row][col].color = gameState.board[r][col].color;
+                                gameState.board[r][col].color = null;
+                                
+                                gameState.board[row][col].element.style.backgroundColor = 
+                                    gameState.board[row][col].color;
+                                gameState.board[r][col].element.style.backgroundColor = 'transparent';
+                                break;
+                            }
+                        }
                     }
                 }
             }
@@ -696,79 +629,57 @@
         function fillEmptyCells() {
             for (let row = 0; row < config.rows; row++) {
                 for (let col = 0; col < config.cols; col++) {
-                    const cell = gameState.board[row][col];
-                    
-                    if (cell.color === null || cell.element.style.backgroundColor === 'transparent') {
-                        // 随机选择一种颜色
+                    if (gameState.board[row][col].color === null) {
                         const colorIndex = Math.floor(Math.random() * config.colors.length);
-                        cell.color = config.colors[colorIndex];
-                        cell.element.style.backgroundColor = cell.color;
-                        
-                        // 添加掉落动画
-                        cell.element.classList.add('falling');
-                        
-                        // 移除动画类
-                        setTimeout(() => {
-                            cell.element.classList.remove('falling');
-                        }, 300);
+                        gameState.board[row][col].color = config.colors[colorIndex];
+                        gameState.board[row][col].element.style.backgroundColor = 
+                            gameState.board[row][col].color;
                     }
                 }
             }
         }
         
-        // 检查是否还有可能的移动
-        function hasPossibleMoves() {
-            // 检查所有可能的交换
+        // 显示提示
+        function showHint() {
+            if (gameState.isProcessing || gameState.isGameOver) return;
+            
+            // 查找一个可能的匹配
             for (let row = 0; row < config.rows; row++) {
-                for (let col = 0; col < config.cols; col++) {
-                    // 检查与右侧单元格交换
-                    if (col < config.cols - 1) {
-                        // 模拟交换
-                        const tempColor = gameState.board[row][col].color;
-                        gameState.board[row][col].color = gameState.board[row][col + 1].color;
-                        gameState.board[row][col + 1].color = tempColor;
-                        
-                        // 检查是否有匹配
-                        const matches = findMatches();
-                        
-                        // 恢复交换
-                        gameState.board[row][col + 1].color = gameState.board[row][col].color;
-                        gameState.board[row][col].color = tempColor;
-                        
-                        if (matches.length > 0) {
-                            return true;
-                        }
-                    }
+                for (let col = 0; col < config.cols - 1; col++) {
+                    // 临时交换
+                    const tempColor = gameState.board[row][col].color;
+                    gameState.board[row][col].color = gameState.board[row][col+1].color;
+                    gameState.board[row][col+1].color = tempColor;
                     
-                    // 检查与下方单元格交换
-                    if (row < config.rows - 1) {
-                        // 模拟交换
-                        const tempColor = gameState.board[row][col].color;
-                        gameState.board[row][col].color = gameState.board[row + 1][col].color;
-                        gameState.board[row + 1][col].color = tempColor;
+                    // 检查是否有匹配
+                    const matches = findMatches();
+                    
+                    // 恢复交换
+                    gameState.board[row][col+1].color = gameState.board[row][col].color;
+                    gameState.board[row][col].color = tempColor;
+                    
+                    if (matches.length > 0) {
+                        // 高亮显示这两个单元格
+                        gameState.board[row][col].element.classList.add('selected');
+                        gameState.board[row][col+1].element.classList.add('selected');
                         
-                        // 检查是否有匹配
-                        const matches = findMatches();
+                        // 2秒后取消高亮
+                        setTimeout(() => {
+                            gameState.board[row][col].element.classList.remove('selected');
+                            gameState.board[row][col+1].element.classList.remove('selected');
+                        }, 2000);
                         
-                        // 恢复交换
-                        gameState.board[row + 1][col].color = gameState.board[row][col].color;
-                        gameState.board[row][col].color = tempColor;
-                        
-                        if (matches.length > 0) {
-                            return true;
-                        }
+                        return;
                     }
                 }
             }
             
-            return false;
+            alert('没有找到可能的消除，尝试重新排列棋盘！');
         }
         
         // 重新排列棋盘
         function shuffleBoard() {
             if (gameState.isProcessing || gameState.isGameOver) return;
-            
-            gameState.isProcessing = true;
             
             // 收集所有颜色
             const colors = [];
@@ -788,101 +699,11 @@
             let index = 0;
             for (let row = 0; row < config.rows; row++) {
                 for (let col = 0; col < config.cols; col++) {
-                    const cell = gameState.board[row][col];
-                    cell.color = colors[index];
-                    cell.element.style.backgroundColor = colors[index];
-                    
-                    // 添加动画
-                    cell.element.classList.add('falling');
-                    setTimeout(() => {
-                        cell.element.classList.remove('falling');
-                    }, 300);
-                    
+                    gameState.board[row][col].color = colors[index];
+                    gameState.board[row][col].element.style.backgroundColor = colors[index];
                     index++;
                 }
             }
-            
-            // 确保没有初始匹配
-            setTimeout(() => {
-                const matches = findMatches();
-                if (matches.length > 0) {
-                    shuffleBoard();
-                } else {
-                    gameState.isProcessing = false;
-                }
-            }, 500);
-        }
-        
-        // 显示提示
-        function showHint() {
-            if (gameState.isProcessing || gameState.isGameOver) return;
-            
-            // 查找可能的移动
-            for (let row = 0; row < config.rows; row++) {
-                for (let col = 0; col < config.cols; col++) {
-                    // 检查与右侧单元格交换
-                    if (col < config.cols - 1) {
-                        // 模拟交换
-                        const tempColor = gameState.board[row][col].color;
-                        gameState.board[row][col].color = gameState.board[row][col + 1].color;
-                        gameState.board[row][col + 1].color = tempColor;
-                        
-                        // 检查是否有匹配
-                        const matches = findMatches();
-                        
-                        // 恢复交换
-                        gameState.board[row][col + 1].color = gameState.board[row][col].color;
-                        gameState.board[row][col].color = tempColor;
-                        
-                        if (matches.length > 0) {
-                            // 找到可能的移动，高亮显示这两个单元格
-                            gameState.board[row][col].element.classList.add('selected');
-                            gameState.board[row][col + 1].element.classList.add('selected');
-                            
-                            // 一段时间后取消高亮
-                            setTimeout(() => {
-                                gameState.board[row][col].element.classList.remove('selected');
-                                gameState.board[row][col + 1].element.classList.remove('selected');
-                            }, config.hintDuration);
-                            
-                            return;
-                        }
-                    }
-                    
-                    // 检查与下方单元格交换
-                    if (row < config.rows - 1) {
-                        // 模拟交换
-                        const tempColor = gameState.board[row][col].color;
-                        gameState.board[row][col].color = gameState.board[row + 1][col].color;
-                        gameState.board[row + 1][col].color = tempColor;
-                        
-                        // 检查是否有匹配
-                        const matches = findMatches();
-                        
-                        // 恢复交换
-                        gameState.board[row + 1][col].color = gameState.board[row][col].color;
-                        gameState.board[row][col].color = tempColor;
-                        
-                        if (matches.length > 0) {
-                            // 找到可能的移动，高亮显示这两个单元格
-                            gameState.board[row][col].element.classList.add('selected');
-                            gameState.board[row + 1][col].element.classList.add('selected');
-                            
-                            // 一段时间后取消高亮
-                            setTimeout(() => {
-                                gameState.board[row][col].element.classList.remove('selected');
-                                gameState.board[row + 1][col].element.classList.remove('selected');
-                            }, config.hintDuration);
-                            
-                            return;
-                        }
-                    }
-                }
-            }
-            
-            // 如果没有找到可能的移动
-            alert('没有找到可能的移动，将重新排列棋盘');
-            shuffleBoard();
         }
         
         // 结束游戏
@@ -891,28 +712,9 @@
             
             // 显示游戏结束消息
             finalScoreElement.textContent = gameState.score;
-            messageTitle.textContent = '游戏结束';
             gameMessage.style.display = 'block';
             overlay.style.display = 'block';
         }
-        
-        // 键盘快捷键
-        document.addEventListener('keydown', (e) => {
-            // 忽略游戏结束或处理中的键盘事件
-            if (gameState.isGameOver || gameState.isProcessing) return;
-            
-            switch (e.key.toLowerCase()) {
-                case 'h':
-                    showHint();
-                    break;
-                case 's':
-                    shuffleBoard();
-                    break;
-                case 'r':
-                    initGame();
-                    break;
-            }
-        });
         
         // 事件监听器
         hintBtn.addEventListener('click', showHint);
